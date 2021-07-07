@@ -1,0 +1,118 @@
+{
+  "warn": {
+    "browser": {
+      "keywords": [
+        "github",
+        "duckduckgo",
+        "yacy",
+        "pipl",
+        "findsounds",
+        "wolframalpha",
+        "dogpile",
+        "boardreader",
+        "baidu",
+        "yahoo",
+        "shenma",
+        "naver",
+        "vk",
+        "telegram",
+        "skype",
+        "facebook",
+        "Veon",
+        "icq",
+        "mail",
+        "viber",
+        "instagram",
+        "wikipedia",
+        "habr",
+        "tproger",
+        "udemy",
+        "coursera",
+        "edx",
+        "stackoverflow",
+        "skillbox",
+        "geekbrains"
+      ]
+    },
+    "messenger": {
+      "keywords": [
+        "message",
+        "friends",
+        "news",
+        "favourites",
+        "telegram",
+        "slack",
+        "skype",
+        "icq",
+        "vk",
+        "facebook",
+        "whatsapp",
+        "viber",
+        "signal",
+        "wechat",
+        "line",
+        "discord",
+        "chat",
+        "channel",
+        "answers"
+      ]
+    }
+  },
+  "ok": {
+    "browser": {
+      "keywords": [
+        "google",
+        "yandex",
+        "bing"
+      ]
+    },
+    "code_editor": {
+      "keywords": [
+        "vcs",
+        "refactor",
+        "debug",
+        "package",
+        "python",
+        "c++",
+        "js",
+        "project",
+        "run",
+        "file",
+        "edit",
+        "tools",
+        "atom",
+        "sublime",
+        "editor",
+        "pycharm",
+        "idea",
+        "webstorm",
+        "jetbrains"
+      ]
+    },
+    "file_manager": {
+      "keywords": [
+        "desktop",
+        "trash",
+        "recent",
+        "home",
+        "documents",
+        "pictures",
+        "downloads",
+        "videos",
+        "music",
+        "answers",
+        "screen",
+        "drive",
+        ".pdf",
+        ".odt",
+        ".djvu",
+        ".doc",
+        ".jpg",
+        ".png",
+        ".txt",
+        ".py",
+        ".cpp"
+      ]
+    }
+  }
+}
