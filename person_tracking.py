@@ -158,6 +158,7 @@ def detect_webcam_anomalies(source, config):
 
 
 if __name__ == "__main__":
+    import time
     from argparse import ArgumentParser
 
     parser = ArgumentParser()
@@ -183,6 +184,7 @@ if __name__ == "__main__":
             pass
 
         video = cv2.VideoCapture(source_path)
+        print('Video loaded')
 
         processing_config = {
             "person_image": person_image,
@@ -194,13 +196,21 @@ if __name__ == "__main__":
             "gaze_vlimits": (0.2, 0.8),
         }
 
+        print('Processing started')
+        t = time.time()
         for result in detect_webcam_anomalies(video, processing_config):
-            print(result)
-
+            print('Frame result: ',result)
+        
         video.release()
+        duration = time.time() - t
+        print(f"Processing of {args['path']} ended, duration - {duration}")
+
     elif args['source'] == "image":
         source_img = face_recognition.load_image_file(source_path)
+        print('Image loaded')
+
         h, w = source_img.shape[:2]
+
         processing_config = {
             "person_image": person_image,
             "width": w,
@@ -210,7 +220,12 @@ if __name__ == "__main__":
         }
 
         person_detector = PersonDetector(processing_config)
+
+        t = time.time()
+        print('Processing started')
         _, result = person_detector(source_img)
-        print(result)
+        duration = time.time() - t
+        print(f"Processing of {args['path']} ended, duration - {duration}")
+        print('Result: ', result)
     else:
         print(f'Wrong source type, got {args["source"]}')

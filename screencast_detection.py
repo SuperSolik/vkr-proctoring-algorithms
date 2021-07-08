@@ -196,6 +196,7 @@ if __name__ == "__main__":
     key_words = json.load(f)
     f.close()
 
+    print('Processing started')
     t = time.time()
     if args["source"] == "video":
         anomalies_markup = detect_screencast_anomalies(
@@ -209,6 +210,6 @@ if __name__ == "__main__":
         print(f'Wrong source type, got {args["source"]}')
 
     duration = time.time() - t
-    print(f"Detect anomalies on {args['source']}: {duration}")
+    print(f"Processing of {args['path']} ended, duration - {duration}")
 
     pprint(anomalies_markup)
