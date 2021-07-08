@@ -172,7 +172,7 @@ if __name__ == "__main__":
     )
     args = vars(parser.parse_args())
 
-    source_path = args["source"]
+    source_path = args["path"]
     person_image = face_recognition.load_image_file(args["image"])
 
     if args["source"] == "video":

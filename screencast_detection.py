@@ -131,6 +131,7 @@ def detect_screencast_anomalies(video, keywords_dct, parallel=False):
 
     fps = video.get(cv2.CAP_PROP_FPS)
     markup = []
+
     with ThreadPool(cpu_count()) as pool:
         prev_timestamp = 0
         wait_results = []
@@ -208,6 +209,6 @@ if __name__ == "__main__":
         print(f'Wrong source type, got {args["source"]}')
 
     duration = time.time() - t
-    print(f"Detect anomalies on screenshot: {duration}")
+    print(f"Detect anomalies on {args['source']}: {duration}")
 
     pprint(anomalies_markup)
