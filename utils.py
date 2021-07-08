@@ -45,11 +45,11 @@ def video_reader(video, sample_rate=0):
         raise ValueError(
             f'"video" argument should be str-path (link) to video or cv2.VideoCapture, got {type(video)}'
         )
-    
+
     frame_number = 0
     sample_rate = int(sample_rate) if sample_rate > 1 else 1
     success = source.grab()
-    
+
     while success:
         if frame_number % (sample_rate + 1) == 0:
             _, frame = source.retrieve()

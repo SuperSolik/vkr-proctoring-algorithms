@@ -1,6 +1,5 @@
 import cv2
 import face_recognition
-from numpy import result_type
 
 from gaze.gaze_tracking import GazeTracking
 from utils import video_reader
@@ -36,6 +35,11 @@ class PersonDetector:
             self.known_encodings += [person_encoding]
 
     def detect_persons(self, frame):
+        """
+        Recognizes persons on frame: detects persons faces on image and
+        matches extracted face features with known face features
+        """
+
         found_persons = []
         scale = 4
 
@@ -68,10 +72,10 @@ class PersonDetector:
         return found_persons
 
     def detect_gaze(self, frame):
-        # `GazeTracking` lib is detecting gaze from first found face
-        # and we can't guarantee that if there are more than 2 face
-        # which one will be detected, probably there is need
-        # to develop our own solution based on lib?
+        """
+        Detects eyes position and gaze direction on image, which possibly contains single human face
+        """
+
         self.gaze_detector.refresh(frame)
         left_eye = self.gaze_detector.pupil_left_coords() or (-1, -1)
         right_eye = self.gaze_detector.pupil_right_coords() or (-1, -1)
@@ -81,9 +85,13 @@ class PersonDetector:
         return left_eye, right_eye, hratio, vratio
 
     def detect(self, frame):
+        """
+        Performs face recongition and student's gaze tracking if present, 
+        also counts unknown persons
+        """
+
         work_frame = frame.copy()
         anomaly_markup = {}
-        check_gaze = False
         search_name = "student"
 
         detected_persons = self.detect_persons(work_frame)
@@ -96,12 +104,8 @@ class PersonDetector:
         ) or (len(detected_persons) > 0 and not student_detected)
 
         left_eye, right_eye, hratio, vratio = (-1, -1), (-1, -1), -1, 1
-        if student_detected and not anomaly_markup["unknown_persons"]:
-            # TODO: right now we dont detect gazes when there are unknown persons, and
-            #  this affects 'student_not_looking_on_monitor' anomaly stats,
-            #  but we can track gazes even in this situation: crop frame by face coords
-            #  for every face we have and pass to detect_gaze(), therefore even when there are many persons,
-            #  we can still detect 'student_not_looking_on_monitor' anomaly
+
+        if student_detected:
             _, student_face = student_data[0]
             x, y, w, h = student_face
             left_eye, right_eye, hratio, vratio = self.detect_gaze(
@@ -133,6 +137,8 @@ class PersonDetector:
 
 
 def detect_webcam_anomalies(source, config):
+    """main function for processing video source"""
+
     person_detector = PersonDetector(config)
 
     skip_frames = config["skip_frames"]
@@ -184,7 +190,7 @@ if __name__ == "__main__":
             pass
 
         video = cv2.VideoCapture(source_path)
-        print('Video loaded')
+        print("Video loaded")
 
         processing_config = {
             "person_image": person_image,
@@ -196,18 +202,18 @@ if __name__ == "__main__":
             "gaze_vlimits": (0.2, 0.8),
         }
 
-        print('Processing started')
+        print("Processing started")
         t = time.time()
         for result in detect_webcam_anomalies(video, processing_config):
-            print('Frame result: ',result)
-        
+            print("Frame result: ", result)
+
         video.release()
         duration = time.time() - t
         print(f"Processing of {args['path']} ended, duration - {duration}")
 
-    elif args['source'] == "image":
+    elif args["source"] == "image":
         source_img = face_recognition.load_image_file(source_path)
-        print('Image loaded')
+        print("Image loaded")
 
         h, w = source_img.shape[:2]
 
@@ -222,10 +228,10 @@ if __name__ == "__main__":
         person_detector = PersonDetector(processing_config)
 
         t = time.time()
-        print('Processing started')
+        print("Processing started")
         _, result = person_detector(source_img)
         duration = time.time() - t
         print(f"Processing of {args['path']} ended, duration - {duration}")
-        print('Result: ', result)
+        print("Result: ", result)
     else:
         print(f'Wrong source type, got {args["source"]}')

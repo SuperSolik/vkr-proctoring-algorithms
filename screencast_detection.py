@@ -196,7 +196,7 @@ if __name__ == "__main__":
     key_words = json.load(f)
     f.close()
 
-    print('Processing started')
+    print("Processing started")
     t = time.time()
     if args["source"] == "video":
         anomalies_markup = detect_screencast_anomalies(
